@@ -1,6 +1,6 @@
 <h1><b> Uber vs. Lyft In NYC During COVID </b></h1>
 <h5> Ziqi Polimeros</h5>
-<h5> April 29th 2022 </h5>
+<h5> May 17th 2022 </h5>
 
 !["FHV"](https://github.com/ZiqiPolimeros/Uber-vs.-Lyft/blob/main/pictures/Uber-Lyft.jpg?raw=true)
 <br>
