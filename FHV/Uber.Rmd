@@ -1,0 +1,588 @@
+---
+title: "Uber vs. Lyft In NYC"
+output: html_notebook
+---
+
+
+
+
+```{r}
+library(stringr)
+library(ggplot2)
+library(scales) # y axis
+library(rgdal)
+library(tidyverse)
+library(lubridate) # convert time to 24 hours,convert days to weekdays
+library(geojsonR) # read geojson file
+library(geojsonio)
+
+```
+
+<h3>Analysis of Annual Financial Reports</h3>
+
+<li>
+<a href="https://investor.lyft.com/financials-and-reports/annual-reports/default.aspx">Lyft Annual Report</a>
+</li>
+<li>
+<a href="https://investor.uber.com/financials/default.aspx">Uber Annual Report</a>
+</li>
+
+<b>Revenue</b>
+
+```{r}
+# in million dollars
+Year = c(2016:2021)
+ 
+Uber_Revenue = c(3338,7402,10433,13000,11139,17455)
+Lyft_Revenue = c(343,1060,2157,3616,2365,3208)
+Revenue = data.frame(Year,Uber_Revenue,Lyft_Revenue)
+Revenue
+```
+
+
+Create revenue change percentage columns
+```{r}
+Revenue$Uber_Revenue_change_perc = c(NA,100*diff(Revenue$Uber_Revenue)/Revenue$Uber_Revenue[c(1:5)])
+Revenue$Lyft_Revenue_change_perc = c(NA,100*diff(Revenue$Lyft_Revenue)/Revenue$Lyft_Revenue[c(1:5)])
+```
+
+```{r}
+Revenue
+```
+
+
+```{r}
+Revenue_gather1 = gather(Revenue,key = "app_taxi",value = "Revenue",2:3)
+Revenue_gather2 = gather(Revenue, key = "percentage", value = "perc",4:5)
+Revenue_gather1$order = c(1:12)
+Revenue_gather2$order = c(1:12)
+Revenue_gather = merge(Revenue_gather1[,c(1,4,5,6)],Revenue_gather2[,c(4:6)],by = "order")
+Revenue_gather
+```
+
+
+
+```{r}
+ggplot(Revenue_gather) + 
+  aes(x = Year, y = Revenue, fill = app_taxi) +
+  geom_col() +
+  scale_x_continuous(breaks = 2016:2021)+
+  geom_text(aes(x = Year, 
+                y = Revenue, 
+                label = ifelse(is.na(perc), "",
+                               paste(round(perc,1),"%"))),
+            vjust = -0.5) +
+  facet_wrap(~app_taxi) +
+  labs(x = "",
+       y = "Total Revenue (In Million Dollars)",
+       title = "Total Revenue and Percentage Change
+       Worldwide")
+```
+
+
+
+
+<b> Active Riders </b>
+
+```{r}
+Year = c(2016:2021)
+Uber_Active_Riders = c(45,68,91,111,93,118)
+Lyft_Active_Riders = c(6.6,12.6,18.6,22.905,12.552,18.728)
+consumers = data.frame(Year,Uber_Active_Riders,Lyft_Active_Riders)
+consumers
+```
+
+
+```{r}
+consumers$Uber_Rider_change_perc = c(NA,100*diff(consumers$Uber_Active_Riders)/consumers$Uber_Active_Riders[c(1:5)])
+consumers$Lyft_Rider_change_perc = c(NA,100*diff(consumers$Lyft_Active_Riders)/consumers$Lyft_Active_Riders[c(1:5)])
+
+consumers
+```
+
+
+```{r}
+consumers_gather1 = gather(consumers,key = "app_taxi",value = "Riders",2:3)
+consumers_gather2 = gather(consumers, key = "percentage", value = "perc",4:5)
+consumers_gather1$order = c(1:12)
+consumers_gather2$order = c(1:12)
+consumers_gather = merge(consumers_gather1[,c(1,4,5,6)],consumers_gather2[,c(4:6)],by = "order")
+consumers_gather
+```
+
+
+```{r}
+ggplot(consumers_gather) + 
+  aes(x = Year, y = Riders, fill = app_taxi) +
+  geom_col() +
+  scale_x_continuous(breaks = 2016:2021)+
+  geom_text(aes(x = Year, 
+                y = Riders, 
+                label = ifelse(is.na(perc), "",paste(round(perc,1),"%"))),
+            vjust = -0.5) +
+  facet_wrap(~app_taxi) +
+  labs(x = "",
+       y = "Active Riders (In Millions)",
+       title = "Uber and Lyft Active Riders and Percentage Change
+       Worldwide")
+```
+
+
+<b> Trips </b>
+```{r}
+Uber_trips = c(1818,3736,5220,6904,5025,6368)
+Lyft_trips = c(162.6,375.5,619.4,2100,NA,NA)
+Trips = data.frame(Year,Uber_trips，Lyft_trips)
+Trips
+```
+
+
+
+```{r}
+Trips$Uber_Trip_change_perc = c(NA,100*diff(Trips$Uber_trips)/Trips$Uber_trips[c(1:5)])
+Trips$Lyft_Trip_change_perc = c(NA, 100*diff(Trips$Lyft_trips)/Trips$Lyft_trips[c(1:4)])
+
+Trips
+```
+
+```{r}
+Trips_gather1 = gather(Trips,key = "app_taxi",value = "Rides",2:3)
+Trips_gather2 = gather(Trips, key = "percentage", value = "perc",4:5)
+Trips_gather1$order = c(1:12)
+Trips_gather2$order = c(1:12)
+Trips_gather = merge(Trips_gather1[,c(1,4,5,6)],Trips_gather2[,c(4:6)],by = "order")
+Trips_gather
+```
+
+```{r}
+ggplot(Trips_gather) + 
+  aes(x = Year, y = Rides, fill = app_taxi) +
+  geom_col() +
+  scale_x_continuous(breaks = 2016:2021)+
+  geom_text(aes(x = Year, 
+                y = Rides, 
+                label = ifelse(is.na(perc), "",paste(round(perc,1),"%"))),
+            vjust = -0.5) +
+  facet_wrap(~app_taxi) +
+  labs(x = "",
+       y = "Trips (In Millions)",
+       title = "Uber and Lyft Trips and Percentage Change
+       Worldwide")
+```
+
+
+
+
+Analysis of 2020_High_Volume_FHV_Trip_Records dataset
+
+<li>
+<a href="https://data.cityofnewyork.us/Transportation/2020-High-Volume-FHV-Trip-Records/yrt9-58g8">2020 High Volume FHV Trip Records</a>
+</li>
+
+```{r}
+FHV = read.csv("2020_High_Volume_FHV_Trip_Records.csv")
+FHV
+```
+
+
+
+```{r}
+#split the dataset into smaller datasets
+FHV0 = FHV[1:10000000,]
+FHV1 = FHV[10000001:20000000,]
+FHV2 = FHV[20000001:30000000,]
+FHV3 = FHV[30000001:40000000,]
+FHV4 = FHV[40000001:50000000,]
+FHV5 = FHV[50000001:60000000,]
+```
+
+```{r}
+FHV6 = FHV[60000001:70000000,]
+FHV7 = FHV[70000001:80000000,]
+FHV8 = FHV[80000001:90000000,]
+FHV9 = FHV[90000001:100000000,]
+FHV10 = FHV[100000001:110000000,]
+FHV11 = FHV[110000001:120000000,]
+FHV12 = FHV[120000001:130000000,]
+FHV13 = FHV[130000001:nrow(FHV),]
+```
+
+Each subset is about one gigabyte. It takes time to perform one single step. 
+```{r}
+FHV0$pickup_datetime = as.POSIXct(FHV0$pickup_datetime, format = "%m/%d/%Y %I:%M:%S %p",tz = Sys.timezone())
+```
+
+```{r}
+FHV0$dropoff_datetime = as.POSIXct(FHV0$dropoff_datetime, format = "%m/%d/%Y %I:%M:%S %p",tz = Sys.timezone())
+```
+
+```{r}
+# create Year, Months, Time, Trip_duration and Hours columns
+FHV0$Year = format(FHV0$pickup_datetime, format = "%Y")
+```
+
+```{r}
+FHV0$Months = format(FHV0$pickup_datetime, format = "%m")
+```
+
+```{r}
+FHV0$Time = format(FHV0$pickup_datetime, format = "%H:%M:%S")
+```
+
+```{r}
+FHV0$Trip_duration = difftime(FHV0$dropoff_datetime, FHV0$pickup_datetime, units = "hours")
+```
+
+```{r}
+FHV0$Hours = format(FHV0$pickup_datetime, format = "%H")
+```
+
+```{r}
+FHV0$Weekdays = weekdays(FHV0$pickup_datetime)
+```
+
+```{r}
+# modify global options
+options(scipen = 999) 
+```
+
+```{r}
+#write.csv(FHV0, "FHV0.csv")
+```
+
+```{r}
+FHV6 = read.csv("FHV6.csv")
+FHV6
+```
+
+Calculate sum of trip duration and number of trips of each subset
+```{r}
+FHV6_group = FHV6 %>%
+  group_by(Year,Months,Hours,Weekdays,dispatching_base_num) %>%
+  drop_na(Trip_duration) %>%
+  summarize(Total_trip_duration = sum(Trip_duration),
+            Total_number_of_trips = n())
+FHV6_group
+
+```
+
+Combine all the subsets
+```{r}
+FHV_group = rbind(FHV_group[,c(2:9)],FHV6_group)
+# FHV_group$Total_trip_duration = format(FHV_group$Total_trip_duration, scientific = FALSE)
+FHV_group
+```
+
+```{r}
+#write.csv(FHV_group,"FHV_group.csv")
+```
+
+```{r}
+FHV_group = read.csv("FHV_group.csv")
+```
+
+<li>
+<a href="https://www1.nyc.gov/assets/tlc/downloads/pdf/find_a_ride.pdf">A Listing of TLC Licensed Bases</a>
+</li>
+
+```{r}
+find_a_ride = read.csv("find_a_ride1.csv")
+# trim whitespace of License_number
+find_a_ride$License_number = trimws(find_a_ride$License_number)
+find_a_ride
+```
+
+```{r}
+FHV_ride = left_join(FHV_group,find_a_ride, by=(c("dispatching_base_num" = "License_number")))
+```
+
+```{r}
+# extra WAV_Dispatcher from Name_of_Base
+FHV_ride$Name_of_Base = str_replace_all(FHV_ride$Name_of_Base, "-" , " ")
+FHV_ride$WAV_Dispatcher = word(FHV_ride$Name_of_Base, 1)
+FHV_ride$WAV_Dispatcher = str_replace_all(FHV_ride$WAV_Dispatcher, c("FLATIRON" = "Via","GREENPOINT" = "Via"))
+
+# remove "hours" in Total_trip_duration
+FHV_ride$Total_trip_duration = as.numeric(word(FHV_ride$Total_trip_duration,1))
+
+# filter out data of Via
+FHV_ride = FHV_ride[which(FHV_ride$WAV_Dispatcher != "Via"),]
+```
+
+```{r}
+# convert Months, Hours, Weekdays to factors
+FHV_ride[,c(2:5)][]= lapply(FHV_ride[,c(2:5)],as.factor)
+```
+
+```{r}
+levels(FHV_ride$Weekdays)
+```
+
+
+```{r}
+#write.csv(FHV_ride[-1],"FHV_ride.csv")
+```
+
+
+```{r}
+FHV_ride
+```
+```{r}
+FHV_ride = read.csv("FHV_ride.csv")
+FHV_ride
+```
+
+
+
+```{r}
+# Total Distance, Total Revenue and Total Trip Duration of NYC Green Taxi in 2020
+ggplot(FHV_ride) +
+  aes(x = Months, y =  Total_number_of_trips, fill = WAV_Dispatcher) +
+  geom_col() + 
+  scale_y_continuous(labels = format_format(big.mark = " ", 
+                                            decimal.mark = ",", 
+                                            scientific = FALSE)) +
+ # geom_text(aes(label = Total_number_of_trips), vjust = -1) +
+  labs(x = 'Months',
+       y = "Total Number of Trips",
+       title = "Total Number of Trips 
+       of NYC Uber and Lyft in 2020") 
+
+ 
+```
+
+
+
+
+
+```{r}
+#  Total Trip Duration in 24 hours
+ggplot(FHV_ride) +
+  aes(x = Hours, y =  Total_trip_duration, fill = WAV_Dispatcher) +
+  geom_col()+
+  scale_x_continuous(breaks = 1:23) +
+  scale_y_continuous(labels = format_format(big.mark = " ", 
+                                            decimal.mark = ",", 
+                                            scientific = FALSE)) +
+#  geom_text(aes(label = Total_number_of_trips), vjust = -1)+
+#  coord_flip()+
+  labs(x = 'Hours',
+       y = "Total Trip Duration (in hours)",
+       title = "Total Trip Duration in 24 hours 
+       of Uber and Lyft in 2020") 
+
+```
+```{r}
+ggplot(FHV_ride) +
+    aes(x = reorder(Weekdays,Total_trip_duration), y = Total_trip_duration, fill = WAV_Dispatcher) +
+    geom_col() +
+    scale_y_continuous(labels = format_format(big.mark = " ", 
+                                            decimal.mark = ",", 
+                                            scientific = FALSE)) +
+    labs(x = 'Weekdays',
+       y = "Total Trip Duration (in hours)",
+       title = "Total Trip Duration in Weekdays 
+       of NYC Uber and Lyft in 2020") 
+
+
+```
+
+
+```{r}
+FHV6 = read.csv("FHV6.csv")
+FHV6
+```
+
+
+Calculate trip duration base on location ID of each subset
+```{r}
+FHV_location6 = FHV6 %>%
+  group_by(PULocationID, DOLocationID,) %>%
+  summarize(Total_trip_duration = sum(Trip_duration),
+            Total_trips = n()) 
+FHV_location6
+```
+
+Combine all the FHV_location subsets
+```{r}
+FHV_location = rbind(FHV_location[,c(2:5)],FHV_location6)
+
+FHV_location
+```
+
+```{r}
+write.csv(FHV_location, "FHV_location.csv")
+```
+
+
+
+
+Merge with datasets taxi+_zone_lookup.csv and taxi zone map
+<li>
+<a href="https://s3.amazonaws.com/nyc-tlc/misc/taxi+_zone_lookup.csv">Taxi Zone Lookup Table</a>
+</li>
+
+```{r}
+taxi_zones = read.csv("taxi+_zone_lookup.csv")
+taxi_zones
+```
+
+
+
+Calculate the 
+```{r}
+pickUp = FHV_location %>%
+  filter(PULocationID != 264 & PULocationID != 265 & !is.na(Total_trip_duration)) %>% # filter out unknown borough
+  group_by(PULocationID) %>%
+  summarise(Total_trip_duration = sum(Total_trip_duration),
+            Total_trips = sum(Total_trips)) 
+pickUp
+```
+
+Combine pickUp and taxi_zones
+```{r}
+pickUp = left_join(pickUp,taxi_zones, by = c("PULocationID" = "LocationID"))
+pickUp
+```
+
+
+
+```{r}
+# read GeoJSON file of NYC Taxi zone
+js = FROM_GeoJson(url_file_string = "https://data.cityofnewyork.us/api/geospatial/d3c5-ddgc?method=export&format=GeoJSON")
+
+```
+
+```{r}
+# create a datafram with longitude and latitude of NYC neighborhood 
+NYC_coord = lapply(1:length(js$features), 
+         function(i){
+           if(!is.list(js$features[[i]]$geometry$coordinates)){
+           tmpdata <- js$features[[i]]$geometry$coordinates
+         }else{
+           tmpdata <- js$features[[i]]$geometry$coordinates[[1]]} 
+           
+tmpdata %>%
+   data.frame() %>% 
+   tibble %>%
+   mutate(zone = js$features[[i]]$properties$zone,
+          borough = js$features[[i]]$properties$borough) %>% 
+          rename("long" = 'X1', 'lat'='X2')}) %>%
+   bind_rows()
+```
+
+
+```{r}
+pickUp_coord = left_join(pickUp, NYC_coord, by = c("Zone"="zone"))
+
+pickUp_coord 
+```
+
+
+```{r}
+write.csv(pickUp_coord,"pickUp_coord.csv")
+```
+
+```{r}
+pickUp_coord = read.csv("pickUp_coord.csv")
+pickUp_coord
+```
+Top 5 locations
+```{r}
+Top_LocationID = pickUp_coord %>%
+  filter(Total_trip_duration > 480000) %>%
+  count(Zone)
+  
+Top_LocationID  
+```
+
+Calculate the coordinates of the top 5 locations
+```{r}
+center_coord = NYC_coord %>%
+  group_by(zone) %>%
+  summarise(long = mean(long),lat = mean(lat)) %>%
+  right_join(Top_LocationID, by = c("zone" = "Zone"))
+center_coord
+```
+
+```{r}
+write.csv(center_coord,"center_coord.csv")
+```
+
+
+
+```{r}
+ggplot(pickUp_coord)+
+  aes(x = long, y = lat,group = Zone, fill =Total_trip_duration) +
+  geom_polygon() +
+ with(center_coord, 
+      annotate(geom="text", x = long, y=lat, 
+               label = zone, 
+               face="bold",
+               size = 5)) +
+  scale_fill_gradient(low = "white", high = "blue") +
+  labs(title = "Total Trip Duration Hours in Different Pick Up Locations 
+       (Uber and Lyft, 2020)")
+  
+```
+
+```{r}
+dropOff = FHV_location %>%
+  filter(DOLocationID != 264 & DOLocationID != 265 & !is.na(Total_trip_duration)) %>% # filter out unknown borough
+  group_by(DOLocationID) %>%
+  summarise(Total_trip_duration = sum(Total_trip_duration),
+            Total_trips = sum(Total_trips)) 
+dropOff
+```
+
+```{r}
+dropOff_coord = left_join(dropOff, NYC_coord, by = c("Zone"="zone"))
+
+dropOff_coord 
+```
+
+
+```{r}
+dropOff_coord = read.csv("dropOff_coord.csv")
+dropOff_coord
+```
+
+
+```{r}
+Top_DLocationID = dropOff_coord %>%
+  filter(!is.na(Zone)) %>%
+  filter(Total_trip_duration > 390000) %>%
+  count(Zone)
+  
+Top_DLocationID  
+```
+
+```{r}
+center_Dcoord = NYC_coord %>%
+  group_by(zone) %>%
+  summarise(long = mean(long),lat = mean(lat)) %>%
+  right_join(Top_DLocationID, by = c("zone" = "Zone"))
+center_Dcoord
+```
+
+
+```{r}
+write.csv(center_Dcoord,"center_Dcoord.csv")
+```
+
+```{r}
+ggplot(dropOff_coord)+
+  aes(x = long, y = lat,group = Zone, fill =Total_trips) +
+  geom_polygon() +
+  with(center_Dcoord, 
+      annotate(geom="text", x = long, y=lat, 
+               label = zone,
+               face="bold",
+               size = 5)) +
+  scale_fill_gradient(low = "white", high = "red") +
+  labs(title = "Total Trips in Different Pick Up Locations 
+       (Uber and Lyft, 2020)")
+  
+```
+
+
