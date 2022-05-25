@@ -1,10 +1,11 @@
 ---
 title: "Uber vs. Lyft In NYC"
-output: html_notebook
+author: "Ziqi Polimeros"
+date: "5/17/2022"
+output:
+  html_document:
+    df_print: paged
 ---
-
-
-
 
 ```{r}
 library(stringr)
@@ -339,14 +340,15 @@ FHV_ride
 ggplot(FHV_ride) +
   aes(x = Months, y =  Total_number_of_trips, fill = WAV_Dispatcher) +
   geom_col() + 
+  scale_x_continuous(breaks = 1:12) +
   scale_y_continuous(labels = format_format(big.mark = " ", 
                                             decimal.mark = ",", 
                                             scientific = FALSE)) +
  # geom_text(aes(label = Total_number_of_trips), vjust = -1) +
   labs(x = 'Months',
-       y = "Total Number of Trips",
-       title = "Total Number of Trips 
-       of NYC Uber and Lyft in 2020") 
+       y = "Number of Trips",
+       title = "Number of Trips of NYC 
+       Uber and Lyft in 2020") 
 
  
 ```
@@ -403,6 +405,8 @@ FHV_location6 = FHV6 %>%
 FHV_location6
 ```
 
+
+
 Combine all the FHV_location subsets
 ```{r}
 FHV_location = rbind(FHV_location[,c(2:5)],FHV_location6)
@@ -429,7 +433,7 @@ taxi_zones
 
 
 
-Calculate the 
+Calculate the trip duration and total trips base on pickup location
 ```{r}
 pickUp = FHV_location %>%
   filter(PULocationID != 264 & PULocationID != 265 & !is.na(Total_trip_duration)) %>% # filter out unknown borough
