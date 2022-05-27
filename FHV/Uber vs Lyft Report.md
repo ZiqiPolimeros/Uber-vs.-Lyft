@@ -2,7 +2,7 @@
 <h5> Ziqi Polimeros</h5>
 <h5> May 17th 2022 </h5>
 
-<a href="https://rpubs.com/ZiqiPolimeros/903493">R code of the project</a>
+
 
 
 !["FHV"](https://github.com/ZiqiPolimeros/Uber-vs.-Lyft/blob/main/pictures/Uber-Lyft.jpg?raw=true)
@@ -134,7 +134,6 @@ The top five pickup and drop off locations are similar. They were JFK airport, L
 In the last ten years, the U.S. GDP growth rate was around 2%, but in 2020 it was negative 3.49%. You can tell that 2020 was a tough year with quarantine and shutting down. Uber and Lyft in the transportation industry, got hit very hard by COVID. However, the two companies both rebounded strongly in 2021. Compared to about 100,000 businesses that were closed,[8] Uber and Lyft demonstrated a strong ability to rebound and recover from adversity.
 
 
-<a href="https://rpubs.com/ZiqiPolimeros/903493">R code of the project</a>
  
 <h2> References</h2>
 
