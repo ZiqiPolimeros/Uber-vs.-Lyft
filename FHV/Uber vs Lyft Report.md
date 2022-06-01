@@ -3,7 +3,7 @@
 <h5> Ziqi Polimeros</h5>
 <h5> May 2022 </h5>
 
-<a href="https://rpubs.com/ZiqiPolimeros/903493">R code of the project</a>
+
 
 !["FHV"](https://github.com/ZiqiPolimeros/Uber-vs.-Lyft/blob/main/pictures/Uber-Lyft.jpg?raw=true)
 <br>
@@ -140,7 +140,6 @@ In the last ten years, the U.S. GDP growth rate was around 2%, but in 2020 it wa
 
 
 
-<a href="https://rpubs.com/ZiqiPolimeros/903493">R code of the project</a>
 
  
 <h2> References</h2>
