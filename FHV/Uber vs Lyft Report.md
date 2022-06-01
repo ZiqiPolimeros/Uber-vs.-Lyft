@@ -1,18 +1,22 @@
+
 <h1><b> Uber vs. Lyft In NYC During COVID </b></h1>
 <h5> Ziqi Polimeros</h5>
-<h5> May 17th 2022 </h5>
+<h5> May 2022 </h5>
 
-
-
+<a href="https://rpubs.com/ZiqiPolimeros/903493">R code of the project</a>
 
 !["FHV"](https://github.com/ZiqiPolimeros/Uber-vs.-Lyft/blob/main/pictures/Uber-Lyft.jpg?raw=true)
 <br>
+
+
 
 <h2> Introduction </h2> 
 
 In the United States the two most popular online ride-hailing companies are Uber and Lyft. Lyft offers both cars and bike rentals, as well as ride-hailing; its business is currently growing in two countries.[1] Uber has established a global presence, thriving in around 70 countries. Its services extend from online ride-hailing to car rental to food and grocery delivery.[2] Both companies are highly profitable. The two companies have grown from startups to unicorns in a few years and then went public in 2019. Uber hit the Fortune 500 in 2020, ranking 228th place.[3]
 
-What makes online ride-hailing services popular? First, transparency of prices and information improves customer satisfaction. Using Uber or Lyft mobile apps, you can choose a price option and grade of service before your trip. In a traditional taxi ride, you never know the price beforehand. Especially if you are a stranger to the city, divers can take advantage of that by taking a longer route to charge more money. You also can access the driver's information and read reviews to ascertain. After the ride you can write your own review of the driver to let people know if the driver is a good bet or not. That's not an option for traditional taxi drivers. Second, the flexibility of hailing a ride anywhere and anytime optimizes rider's experience. With the mobile apps, you can see where your Uber or Lyft car is and when they will arrive. You can wait for your car that you reserved online in your place instead of getting to a main thorough air looking for a taxi on a street. Some public transportation and taxi companies don't run 24 hours a day. But people still can travel late at night with online ride-hailing services when there's no other options. Third, online ride-hailing is safer for both customers and drivers. To qualify to serve an online ride-hailing driving system, drivers are required to submit DMV driving record checks, and be fingerprinted for criminal background checks and drug testing.[4] Customers can enjoy their trips with less worry and stress. As customer pay with their apps rather than with cash, drivers would not likely be targeted for robbery.
+What makes online ride-hailing services popular? 
+First, transparency of prices and information improves customer satisfaction. Using Uber or Lyft mobile apps, you can choose a price option and grade of service before your trip. In a traditional taxi ride, you never know the price beforehand. Especially if you are a stranger to the city, divers can take advantage of that by taking a longer route to charge more money. You also can access the driver's information and read reviews to ascertain. After the ride you can write your own review of the driver to let people know if the driver is a good bet or not. That's not an option for traditional taxi drivers. 
+Second, the flexibility of hailing a ride anywhere and anytime optimizes rider's experience. With the mobile apps, you can see where your Uber or Lyft car is and when they will arrive. You can wait for your car that you reserved online in your place instead of getting to a main thorough air looking for a taxi on a street. Some public transportation and taxi companies don't run 24 hours a day. But people still can travel late at night with online ride-hailing services when there's no other options. Third, online ride-hailing is safer for both customers and drivers. Being a driver, you must meet certain criteria. Drivers are required to submit DMV driving record checks, and be fingerprinted for criminal background checks and drug testing.[4] Customers can enjoy their trips with less worry and stress. As customer pay with their apps rather than with cash, drivers would not likely be targeted for robbery.
 
 How was the business of online ride-hailing in 2020 during the coronavirus pandemic? During lockdown, restaurants, theaters, and tourist attractions were shut down. Even all students couldn't come to class and had to take online courses. Air travel was suspended for a while as well. If people couldn't travel in the city or out of the city, how did the online ride-hailing industry survive? In this project, we analyzed Uber and Lyft annual reports and NYC 2020 High Volume FHV Trip Records. We focused on the following questions:
 
@@ -66,7 +70,7 @@ A traditional taxi company makes money from selling or renting taxi caps and med
 
 <b>Discussion 1. </b> 
 
-The number of trips for Lyft was growing exponentially. As mentioned earlier we don't have the information of 2020 and 2021, but the trend should be similar to Active Riders and Total Revenue below. In 2020 the amount of Uber trips plummeted. In 2021 it rebounded strongly, though it still was not at eh level it had attained in 2019. 
+The number of trips for Lyft was growing exponentially. As mentioned earlier we don't have the information of 2020 and 2021, but the trend should be similar to Active Riders and Total Revenue below. In 2020 the amount of Uber trips plummeted. In 2021 it rebounded strongly, though it still was not at the level it had attained in 2019. 
 
 !["riders"](https://github.com/ZiqiPolimeros/Uber-vs.-Lyft/blob/main/pictures/Active%20Riders.png?raw=true)
 <br>
@@ -86,7 +90,7 @@ The trend of Revenue was similar to Active Rider's, but Uber's revenue in 2021 s
 
 <h2> Data Analysis: Lyft And Uber In NYC During COVID Pandemic </h2> 
 
-The first outbreak of COVID was in China in 2019. In the United States, the president declared a state of national emergency because of COVID begun in March 2020. New York City begun the process of shutting down from March 16th.[7]
+The first outbreak of COVID was in China in 2019. In the United States, the president declared a state of national emergency because of COVID begun in March 2020. New York City begun the process of shutting down from March.[7]
 
 !["monthly"](https://github.com/ZiqiPolimeros/Uber-vs.-Lyft/blob/main/pictures/monthly.png?raw=true)
 <br>
@@ -95,7 +99,8 @@ The first outbreak of COVID was in China in 2019. In the United States, the pres
 <b>Discussion 4. </b>
 
 Uber's number of monthly trips were almost three times that of Lyft's, but the trends of Lyft and Uber were similar, reflected the impact of lockdowns in 2020. New York City started shutting down on March 16th. That was followed by the stay-at-home order. In April and May the governor extended stay-at-home order and his PAUSE order.[7] 
-From the graph, we can see the number of trips started to go down in March; they plunged even further in April and reached the lowest point in May. In June the number of trips suddenly rebounded to March's level, because New York City began reopening phase one and two. After phase three and four reopening, the number of trips peaked in August, hitting a number greater than before COVID struck. Then we had a COVID resurgence. Even without a stay-at-home order, some people opted to stay home, though some still went out. The number of trips fell from August to November, and then bounced back a little in December.
+From the graph, we can see the number of trips started to go down in March; they plunged even further in April and reached the lowest point. In May the number of trips slowly rebounded, because New York City began reopening phase one and two. After phase three and four reopening, the number of trips peaked in October, hitting a number of March's level. Then we had a COVID resurgence. Even without a stay-at-home order, some people opted to stay home, though some still went out. The number of trips fell in November and December, but still, much higher than April's level. 
+
 
 
 
@@ -106,7 +111,7 @@ From the graph, we can see the number of trips started to go down in March; they
 
 <b>Discussion 5. </b>
 
-Uber's peak days were on Thursday and Friday, while Lyft's were on Tuesday and Wednesday. The minimum trip duration of Uber and Lyft were the same  on Monday and Sunday. 
+Uber and Lyft share the same trend in this graph. Peak days of a week were on Friday and Saturday, while the minimum trip duration were on Monday and Sunday. 
 
 
 !["hourly"](https://github.com/ZiqiPolimeros/Uber-vs.-Lyft/blob/main/pictures/hourly.png?raw=true)
@@ -114,7 +119,7 @@ Uber's peak days were on Thursday and Friday, while Lyft's were on Tuesday and W
 
 <b>Discussion 6. </b>
 
-The most productive time of day were around 8 am and 6pm. The least productive times were from 4am to 5am and again at 11am. 
+The most productive time of day were around 8 am and 5pm. The least productive times were from 3am to 4am and again at 10am. 
 
 !["pickup"](https://github.com/ZiqiPolimeros/Uber-vs.-Lyft/blob/main/pictures/pickUp.png?raw=true)
 
@@ -131,8 +136,11 @@ The top five pickup and drop off locations are similar. They were JFK airport, L
 
 
 <h2> Summary </h2>
-In the last ten years, the U.S. GDP growth rate was around 2%, but in 2020 it was negative 3.49%. You can tell that 2020 was a tough year with quarantine and shutting down. Uber and Lyft in the transportation industry, got hit very hard by COVID. However, the two companies both rebounded strongly in 2021. Compared to about 100,000 businesses that were closed,[8] Uber and Lyft demonstrated a strong ability to rebound and recover from adversity.
+In the last ten years, the U.S. GDP growth rate was around 2%, but in 2020 it was negative 3.49%. You can tell that 2020 was a tough year with quarantine and shutting down. Uber and Lyft in the transportation industry, got hit very hard by COVID. However, the two companies both rebounded strongly in 2021. Compared to about 100,000 businesses that were closed due to COVID,[8] Uber and Lyft demonstrated a strong ability to rebound and recover from adversity.
 
+
+
+<a href="https://rpubs.com/ZiqiPolimeros/903493">R code of the project</a>
 
  
 <h2> References</h2>
