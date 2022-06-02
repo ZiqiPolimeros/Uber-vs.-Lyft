@@ -98,7 +98,7 @@ The first outbreak of COVID was in China in 2019. In the United States, the pres
 
 <b>Discussion 4. </b>
 
-Uber's number of monthly trips were almost three times that of Lyft's, but the trends of Lyft and Uber were similar, reflected the impact of lockdowns in 2020. New York City started shutting down on March 16th. That was followed by the stay-at-home order. In April and May the governor extended stay-at-home order and his PAUSE order.[7] 
+Uber's number of monthly trips were almost three times that of Lyft's, but the trends of Lyft and Uber were similar, reflected the impact of lockdowns in 2020. New York City started shutting down on March 16th. That was followed by the stay-at-home order. In April the governor extended stay-at-home order and his PAUSE order.[7] 
 From the graph, we can see the number of trips started to go down in March; they plunged even further in April and reached the lowest point. In May the number of trips slowly rebounded, because New York City began reopening phase one and two. After phase three and four reopening, the number of trips peaked in October, hitting a number of March's level. Then we had a COVID resurgence. Even without a stay-at-home order, some people opted to stay home, though some still went out. The number of trips fell in November and December, but still, much higher than April's level. 
 
 
